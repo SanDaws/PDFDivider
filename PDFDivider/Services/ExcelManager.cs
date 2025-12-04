@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NPOI.SS.Formula.Functions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,16 +21,24 @@ namespace PDFDivider.Services
                 // Lógica para cargar el archivo de Excel
                 Console.WriteLine("Cargando archivo de Excel desde: " + Excelpath);
         }
-        public void SetRoute(string path)
+        public bool SetRoute(string path)
             {
-                Excelpath = path;
+            if (!VerifyExcelFile(Excelpath))
+            {
+                return false;
+            }
+            Excelpath = path;
+            return true;
+
+
+
         }
 
         //verificar archivo excel
-        public bool VerifyExcelFile()
+        public bool VerifyExcelFile(string path)
             {
                 // Lógica para verificar si el archivo de Excel existe y es accesible
-                return System.IO.File.Exists(Excelpath);
+                return System.IO.File.Exists(path);
             }
             //abrir archivo excel
             public void OpenExcelFile()
