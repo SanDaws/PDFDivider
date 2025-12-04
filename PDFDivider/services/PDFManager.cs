@@ -5,6 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
+using System.Drawing.Printing;
 
 namespace PDFDivider.Services
 {
@@ -12,14 +15,17 @@ namespace PDFDivider.Services
     {
         //entrada
         public string FilePath { get; set; }
-        private List<XImage> TheWholeFile = new List<XImage>();
+        private List<XImage> WholeFile = new List<XImage>();
         //rango de paginas
-        public int initialPage { get; set; }
-        public int finalPage { get; set; }
+        public int InitialPage { get; set; }
+        public int FinalPage { get; set; }
         //salida
         public string OutputDirectory { get; set; }
 
-        private List<XImage> TheFinalFile = new List<XImage>();
+        private List<XImage> FinalFile = new List<XImage>();
+
+        //impresora
+        private PrintDocument printerPDF = new PrintDocument();
 
         //constructor
         public PDFManager(string filePath)
@@ -50,14 +56,14 @@ namespace PDFDivider.Services
             return Directory.Exists(outputDirectory);
         }
         //crear runta de salida
-        public string directoryCreate(string GeneralDirectory, string newDirectoryName)
+        public string DirectoryCreate(string newDirectoryName)
         {
 
-            if (!OutputDirectoryExists(GeneralDirectory))
+            if (!OutputDirectoryExists(OutputDirectory))
             {
                 return null;
             }
-            string newDirectoryPath = $"{GeneralDirectory}/{newDirectoryName}";
+            string newDirectoryPath = $"{OutputDirectory}/{newDirectoryName}";
             Directory.CreateDirectory(newDirectoryName);
             return newDirectoryPath;
 
@@ -72,15 +78,15 @@ namespace PDFDivider.Services
         //pagina inicial y final
         public void rangePages(int initial, int final)
         {
-            initialPage = initial;
-            finalPage = final;
+            InitialPage = initial;
+            FinalPage = final;
         }
         //output directory
         public bool safeoutputdirectory(string generalDirectory)
         {
             if (!OutputDirectoryExists(generalDirectory))
             {
-                directoryCreate(generalDirectory, "PDFDividerOutput");
+                DirectoryCreate("PDFDividerOutput");
             }
             return true;
         }

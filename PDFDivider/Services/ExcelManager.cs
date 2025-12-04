@@ -8,16 +8,28 @@ namespace PDFDivider.Services
 {
         internal class ExcelManager
         {
-            public string excelpath { get; set; }
-    	public ExcelManager(string path)
+        //private List<> TheWholeExcel;
+        private string Excelpath { get; set; }
+        
+        public ExcelManager(string path)
             {
-                excelpath = path;
+                Excelpath = path;
             }
-            //verificar archivo excel
-            public bool VerifyExcelFile()
+        public void LoadExcel()
+            {
+                // Lógica para cargar el archivo de Excel
+                Console.WriteLine("Cargando archivo de Excel desde: " + Excelpath);
+        }
+        public void SetRoute(string path)
+            {
+                Excelpath = path;
+        }
+
+        //verificar archivo excel
+        public bool VerifyExcelFile()
             {
                 // Lógica para verificar si el archivo de Excel existe y es accesible
-                return System.IO.File.Exists(excelpath);
+                return System.IO.File.Exists(Excelpath);
             }
             //abrir archivo excel
             public void OpenExcelFile()
