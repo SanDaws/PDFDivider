@@ -80,6 +80,7 @@ namespace PDFDivider
             this.btnRun.TabIndex = 2;
             this.btnRun.Text = "Run";
             this.btnRun.UseVisualStyleBackColor = true;
+            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
             // 
             // lblDirOutput
             // 
@@ -96,9 +97,9 @@ namespace PDFDivider
             // 
             this.btnFBoutput.Location = new System.Drawing.Point(480, 220);
             this.btnFBoutput.Name = "btnFBoutput";
-            this.btnFBoutput.Size = new System.Drawing.Size(75, 23);
+            this.btnFBoutput.Size = new System.Drawing.Size(96, 23);
             this.btnFBoutput.TabIndex = 4;
-            this.btnFBoutput.Text = "button1";
+            this.btnFBoutput.Text = "Output Folder";
             this.btnFBoutput.UseVisualStyleBackColor = true;
             this.btnFBoutput.Click += new System.EventHandler(this.btnFBoutput_Click);
             // 

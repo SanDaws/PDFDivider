@@ -1,58 +1,86 @@
 ﻿using NPOI.SS.Formula.Functions;
+using NPOI.Util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PDFDivider.Services
 {
-        internal class ExcelManager
+        public class ExcelManager
         {
-        //private List<> TheWholeExcel;
+        /// <summary>
+        /// change of plans , this class will manage excel files in the future
+        /// rn is only to open a csv file and read data from it
+        /// </summary>
+        public Dictionary<int,listROw> AllRows;
+        public List<row> WholeFile;
         private string Excelpath { get; set; }
         
         public ExcelManager(string path)
             {
                 Excelpath = path;
-            }
-        public void LoadExcel()
-            {
-                // Lógica para cargar el archivo de Excel
-                Console.WriteLine("Cargando archivo de Excel desde: " + Excelpath);
-        }
-        public bool SetRoute(string path)
-            {
-            if (!VerifyExcelFile(Excelpath))
-            {
-                return false;
-            }
-            Excelpath = path;
-            return true;
-
-
+                WholeFile = new List<row>();
+                AllRows = new Dictionary<int, listROw>();
 
         }
 
-        //verificar archivo excel
-        public bool VerifyExcelFile(string path)
-            {
-                // Lógica para verificar si el archivo de Excel existe y es accesible
-                return System.IO.File.Exists(path);
-            }
-            //abrir archivo excel
-            public void OpenExcelFile()
-            {
-                if (VerifyExcelFile())
+
+        public  void LoadExcel()
+        {
+            using (StreamReader reader = File.OpenText(Excelpath)){
+                
+                string line;
+                //skip header
+                reader.ReadLine();
+                while ((line = reader.ReadLine()) != null)
                 {
-                    // Lógica para abrir y leer el archivo de Excel
-                    Console.WriteLine("Archivo de Excel abierto correctamente.");
-                }
-                else
-                {
-                    Console.WriteLine("El archivo de Excel no existe o no es accesible.");
+                    row newRow = new row(line);
+
+                    if (!AllRows.ContainsKey(newRow.No))
+                    {
+                        AllRows[newRow.No] = new listROw();
+                    }
+                    AllRows[newRow.No].addRow(newRow);
+
+
                 }
             }
         }
+        //public bool SetRoute(string path)
+        //    {
+        //    if (!VerifyExcelFile(Excelpath))
+        //    {
+        //        return false;
+        //    }
+        //    Excelpath = path;
+        //    return true;
+
+
+
+        //}
+
+        ////verificar archivo excel
+        //public bool VerifyExcelFile(string path)
+        //    {
+        //        // Lógica para verificar si el archivo de Excel existe y es accesible
+        //        return System.IO.File.Exists(path);
+        //    }
+        //    //abrir archivo excel
+        //    public void OpenExcelFile(string path)
+        //    {
+        //        if (VerifyExcelFile(path))
+        //        {
+        //            // Lógica para abrir y leer el archivo de Excel
+        //            Console.WriteLine("Archivo de Excel abierto correctamente.");
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine("El archivo de Excel no existe o no es accesible.");
+        //        }
+        //    }
+    }
 
 }
